@@ -1,0 +1,9 @@
+{
+  "name": "Mas log",
+  "short_name": "Mas log",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f2f4f7",
+  "theme_color": "#1f2937",
+  "lang": "ja"
+}

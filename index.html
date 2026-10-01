@@ -20,6 +20,7 @@
 
 html{
   min-height:100%;
+  background:var(--footer);
 }
 
 :root{
@@ -31,8 +32,8 @@ html{
   --line:#e5e7eb;
 
   /* フッター */
-  --footer:#dfe2e6;
-  --footer-active:#d4d8dd;
+  --footer:#c8ccd1;
+  --footer-active:#bcc1c7;
 }
 
 body{
@@ -47,11 +48,6 @@ body{
   padding-bottom:calc(68px + env(safe-area-inset-bottom));
 
   overflow-x:hidden;
-}
-
-button{
-  font-family:inherit;
-  cursor:pointer;
 }
 
 /* =========================
@@ -139,26 +135,31 @@ h3{
   justify-content:center;
 
   background:var(--footer);
-  border-top:1px solid #c9cdd2;
+  border-top:1px solid #b9bec4;
 
   padding:0;
   margin:0;
 
   z-index:1000;
+
+  box-sizing:border-box;
 }
 
 .tabs button{
   flex:1;
   max-width:300px;
 
+  width:50%;
   height:68px;
+
   margin:0;
+  padding:0;
 
   border:0;
   border-top:3px solid transparent;
 
   background:var(--footer);
-  color:#737b86;
+  color:#68717c;
 
   font-size:13px;
 
@@ -168,6 +169,8 @@ h3{
   justify-content:center;
 
   gap:2px;
+
+  box-sizing:border-box;
 }
 
 .tabs button .ic{

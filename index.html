@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1f2937">
@@ -20,6 +20,7 @@
 
 html{
   min-height:100%;
+  width:100%;
   background:var(--footer);
 }
 
@@ -39,13 +40,16 @@ html{
 body{
   margin:0;
   min-height:100%;
+  width:100%;
+
   font-family:-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+
   background:var(--bg);
   color:var(--ink);
 
   /* 固定ヘッダー・フッター分の余白 */
   padding-top:calc(62px + env(safe-area-inset-top));
-  padding-bottom:calc(68px + env(safe-area-inset-bottom));
+  padding-bottom:68px;
 
   overflow-x:hidden;
 }
@@ -124,6 +128,7 @@ h3{
 
 .tabs{
   position:fixed;
+
   left:0;
   right:0;
   bottom:0;
@@ -133,6 +138,7 @@ h3{
 
   display:flex;
   justify-content:center;
+  align-items:stretch;
 
   background:var(--footer);
   border-top:1px solid #b9bec4;
@@ -146,10 +152,12 @@ h3{
 }
 
 .tabs button{
-  flex:1;
+  flex:1 1 0;
+  min-width:0;
+
   max-width:300px;
 
-  width:50%;
+  width:auto;
   height:68px;
 
   margin:0;

@@ -25,6 +25,10 @@
   --ink:#1f2937;
   --mute:#6b7280;
   --line:#e5e7eb;
+
+  /* フッター */
+  --footer:#eef0f3;
+  --footer-active:#e2e6eb;
 }
 
 html,
@@ -144,9 +148,9 @@ h3{
   display:flex;
   justify-content:center;
 
-  background:#fff;
+  background:var(--footer);
 
-  border-top:1px solid var(--line);
+  border-top:1px solid #d9dde2;
 
   padding:0;
   padding-bottom:env(safe-area-inset-bottom);
@@ -167,8 +171,8 @@ h3{
   border:0;
   border-top:3px solid transparent;
 
-  background:#fff;
-  color:var(--mute);
+  background:var(--footer);
+  color:#737b86;
 
   font-size:13px;
 
@@ -178,6 +182,10 @@ h3{
   justify-content:center;
 
   gap:2px;
+
+  transition:
+    background .15s ease,
+    color .15s ease;
 }
 
 .tabs button .ic{
@@ -188,8 +196,10 @@ h3{
 .tabs button.on{
   color:var(--blue);
   font-weight:bold;
+
   border-top-color:var(--blue);
-  background:#eff6ff;
+
+  background:var(--footer-active);
 }
 
 /* ---------- 部位選択 ---------- */

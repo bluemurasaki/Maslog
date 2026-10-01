@@ -434,22 +434,25 @@ button.sub{
 .exscreen-head{
   display:flex;
   align-items:center;
-  gap:8px;
+  gap:6px;
 }
 
+/*
+  種目ページ上部はコンパクトにする
+*/
 .exscreen-head .back{
   flex-shrink:0;
 
-  height:40px;
-  padding:0 13px;
+  height:34px;
+  padding:0 9px;
 
-  border:2px solid var(--blue);
-  border-radius:10px;
+  border:1px solid var(--blue);
+  border-radius:8px;
 
   background:#eff6ff;
   color:var(--blue);
 
-  font-size:15px;
+  font-size:13px;
   font-weight:bold;
 }
 
@@ -465,26 +468,58 @@ button.sub{
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
+
+  font-size:15px;
 }
 
 .save-top{
   flex-shrink:0;
 
-  height:40px;
-  padding:0 15px;
+  height:34px;
+  padding:0 10px;
 
   border:0;
-  border-radius:9px;
+  border-radius:8px;
 
   background:var(--blue);
   color:#fff;
 
-  font-size:15px;
+  font-size:13px;
   font-weight:bold;
 }
 
 .save-top:active{
   background:var(--blue-d);
+}
+
+/* =========================
+   グラフアイコン
+========================= */
+
+.graph-icon{
+  flex-shrink:0;
+
+  width:34px;
+  height:34px;
+
+  padding:0;
+
+  border:1px solid #cbd5e1;
+  border-radius:8px;
+
+  background:#fff;
+  color:var(--blue);
+
+  font-size:18px;
+  line-height:1;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.graph-icon:active{
+  background:#eff6ff;
 }
 
 /* =========================
@@ -963,7 +998,13 @@ svg{
   }
 
   .save-top{
-    padding:0 12px;
+    padding:0 8px;
+  }
+
+  .graph-icon{
+    width:32px;
+    height:32px;
+    font-size:17px;
   }
 
   .record-summary-row{
@@ -1169,6 +1210,7 @@ function utc(s){
     +p[1]-1,
     +p[2]
   );
+
 }
 
 function fmtW(n){
@@ -1214,6 +1256,7 @@ function vol(sets){
   });
 
   return t / 10;
+
 }
 
 function maxW(sets){
@@ -1229,6 +1272,7 @@ function maxW(sets){
   });
 
   return m;
+
 }
 
 function getDays(cat,ex){
@@ -1272,6 +1316,7 @@ function findLog(cat,ex,date){
   }
 
   return null;
+
 }
 
 function lastSummary(cat,name){
@@ -1304,6 +1349,7 @@ function lastSummary(cat,name){
     });
 
   return top;
+
 }
 
 function elapsedDays(cat,ex){
@@ -1329,6 +1375,7 @@ function elapsedDays(cat,ex){
     last:last,
     days:Math.max(0,diff)
   };
+
 }
 
 /* =========================
@@ -1534,10 +1581,6 @@ function openExercise(i){
   state.ex =
     data.exercises[state.cat][i];
 
-  /*
-    種目をタップしたときは
-    まず記録まとめ画面を表示
-  */
   state.sub = "summary";
 
   state.date = today();
@@ -1824,10 +1867,6 @@ function saveLog(){
 
   alert("保存しました");
 
-  /*
-    保存後は記録入力画面に残す。
-    ここは従来の挙動を維持。
-  */
   render();
 
 }
@@ -1977,10 +2016,6 @@ function render(){
   var app =
     document.getElementById("app");
 
-  /*
-    データ管理ページは
-    メインタブとは独立して表示
-  */
   if (state.sub === "data"){
 
     app.innerHTML =
@@ -2154,19 +2189,12 @@ function renderExList(){
 
 function renderExScreen(){
 
-  /*
-    新しい初期画面
-    「種目記録まとめ」
-  */
   if (state.sub === "summary"){
 
     return renderExerciseSummary();
 
   }
 
-  /*
-    記録入力画面
-  */
   if (state.sub === "rec"){
 
     var h =
@@ -2215,9 +2243,6 @@ function renderExScreen(){
 
   }
 
-  /*
-    グラフ画面
-  */
   if (state.sub === "graph"){
 
     return renderGraph();
@@ -2240,6 +2265,10 @@ function renderExerciseSummary(){
       state.ex
     );
 
+  /*
+    上部を1列にまとめる
+    ← 戻る / 種目名 / ＋記録 / グラフ
+  */
   var h =
     '<div class="card">'+
 
@@ -2259,25 +2288,19 @@ function renderExerciseSummary(){
         '＋ 記録'+
         '</button>'+
 
+        '<button class="graph-icon" onclick="setSub(\'graph\')" aria-label="グラフを見る">'+
+        '📈'+
+        '</button>'+
+
       '</div>'+
 
     '</div>';
 
   /*
-    グラフボタン
+    ここにあった
+    「グラフを見る」独立ボタンは削除
   */
-  h +=
-    '<div class="card">'+
 
-      '<button class="outline" onclick="setSub(\'graph\')" style="margin-top:0">'+
-      'グラフを見る'+
-      '</button>'+
-
-    '</div>';
-
-  /*
-    記録一覧
-  */
   h +=
     '<div class="card">'+
       '<h3>記録一覧</h3>';
@@ -2294,11 +2317,6 @@ function renderExerciseSummary(){
     h +=
       '<div class="record-summary-list">';
 
-    /*
-      getDaysは古い順なので、
-      ここではコピーして逆順にする。
-      元データの順番は変更しない。
-    */
     days
       .slice()
       .reverse()
@@ -2687,9 +2705,6 @@ function renderGraph(){
 
   }
 
-  /*
-    グラフ画面の戻るボタン
-  */
   var h =
     '<div class="card">'+
 

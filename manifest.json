@@ -1,6 +1,6 @@
 {
-  "name": "Mas log",
-  "short_name": "Mas log",
+  "name": "Maslog",
+  "short_name": "Maslog",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f2f4f7",

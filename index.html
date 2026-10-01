@@ -493,8 +493,15 @@ button.sub{
 }
 
 /* =========================
-   グラフアイコン
+   グラフ・記録ボタン
 ========================= */
+
+.summary-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-shrink:0;
+}
 
 .graph-icon{
   flex-shrink:0;
@@ -2284,13 +2291,17 @@ function renderExerciseSummary(){
           '</h3>'+
         '</div>'+
 
-        '<button class="save-top" onclick="openRecordInput()">'+
-        '＋ 記録'+
-        '</button>'+
+        '<div class="summary-actions">'+
 
-        '<button class="graph-icon" onclick="setSub(\'graph\')" aria-label="グラフを見る">'+
-        '📈'+
-        '</button>'+
+          '<button class="graph-icon" onclick="setSub(\'graph\')" aria-label="グラフを見る" title="グラフを見る">'+
+          '📈'+
+          '</button>'+
+
+          '<button class="save-top" onclick="openRecordInput()">'+
+          '＋ 記録'+
+          '</button>'+
+
+        '</div>'+
 
       '</div>'+
 

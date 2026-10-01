@@ -26,7 +26,6 @@
   --mute:#6b7280;
   --line:#e5e7eb;
 
-  /* フッター */
   --footer:#c8ccd1;
   --footer-active:#bcc1c7;
 }
@@ -43,7 +42,6 @@ body{
   background:var(--bg);
   color:var(--ink);
 
-  /* 固定ヘッダー・フッター分の余白 */
   padding-top:calc(62px + env(safe-area-inset-top));
   padding-bottom:52px;
 
@@ -83,6 +81,34 @@ header{
   font-size:27px;
   font-weight:800;
   letter-spacing:.5px;
+}
+
+.header-menu{
+  position:absolute;
+  right:12px;
+  top:50%;
+
+  transform:translateY(-50%);
+
+  width:40px;
+  height:40px;
+
+  border:0;
+  border-radius:10px;
+
+  background:transparent;
+  color:#fff;
+
+  font-size:24px;
+  line-height:1;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.header-menu:active{
+  background:#374151;
 }
 
 /* =========================
@@ -165,17 +191,17 @@ h3{
   font-size:13px;
 
   display:flex;
-  flex-direction:row;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
 
-  gap:6px;
+  gap:2px;
 
   box-sizing:border-box;
 }
 
 .tabs button .ic{
-  font-size:17px;
+  font-size:18px;
   line-height:1;
 }
 
@@ -242,9 +268,9 @@ h3{
   flex:1;
   position:relative;
 
-  min-height:68px;
+  min-height:46px;
 
-  padding:11px 24px 10px 0;
+  padding:4px 22px 4px 0;
 
   cursor:pointer;
 }
@@ -263,19 +289,19 @@ h3{
 }
 
 .ex .nm{
-  font-size:17px;
+  font-size:16px;
   font-weight:bold;
 }
 
 .ex .info{
-  font-size:13px;
+  font-size:11px;
   color:var(--mute);
-  margin-top:3px;
-  line-height:1.5;
+  margin-top:1px;
+  line-height:1.2;
 }
 
 .ex .prev{
-  font-size:14px;
+  font-size:12px;
   color:var(--ink);
   font-weight:bold;
 }
@@ -345,6 +371,11 @@ input:focus,
 select:focus{
   outline:2px solid var(--blue);
   border-color:var(--blue);
+}
+
+.record-date{
+  width:calc(100% - 4px);
+  margin:4px 4px 8px 0;
 }
 
 button.main{
@@ -425,6 +456,7 @@ button.sub{
 .exscreen-title{
   flex:1;
   min-width:0;
+  text-align:center;
 }
 
 .exscreen-title h3{
@@ -453,6 +485,61 @@ button.sub{
 
 .save-top:active{
   background:var(--blue-d);
+}
+
+/* =========================
+   種目記録まとめ
+========================= */
+
+.record-summary-list{
+  border-top:1px solid var(--line);
+}
+
+.record-summary-row{
+  display:grid;
+
+  grid-template-columns:1fr 1fr auto;
+
+  align-items:center;
+
+  gap:8px;
+
+  min-height:58px;
+
+  padding:8px 0;
+
+  border-bottom:1px solid var(--line);
+}
+
+.record-summary-row span{
+  display:block;
+
+  font-size:11px;
+  color:var(--mute);
+
+  margin-bottom:2px;
+}
+
+.record-summary-row b{
+  font-size:16px;
+  color:var(--ink);
+}
+
+.record-summary-row b small{
+  font-size:11px;
+
+  margin-left:2px;
+
+  font-weight:normal;
+}
+
+.record-summary-date{
+  font-size:13px;
+  color:var(--mute);
+
+  white-space:nowrap;
+
+  text-align:right;
 }
 
 /* =========================
@@ -824,29 +911,29 @@ svg{
 ========================= */
 
 .data-management-card{
-  padding:9px 12px;
-  margin-bottom:8px;
+  padding:12px 14px;
+  margin-bottom:12px;
 }
 
 .data-management-card h3{
   margin-bottom:6px;
-  font-size:15px;
+  font-size:16px;
 }
 
 .data-management-card .main,
 .data-management-card .outline{
-  height:38px;
-  margin-top:5px;
+  height:44px;
+  margin-top:6px;
 
-  font-size:14px;
-  border-radius:9px;
+  font-size:15px;
+  border-radius:10px;
 }
 
-.data-management-card .dm p{
-  margin:4px 0 8px;
+.data-management-card p{
+  margin:6px 0 0;
 
-  font-size:11px;
-  line-height:1.4;
+  font-size:12px;
+  line-height:1.5;
 }
 
 /* =========================
@@ -878,23 +965,46 @@ svg{
   .save-top{
     padding:0 12px;
   }
+
+  .record-summary-row{
+    gap:5px;
+  }
+
+  .record-summary-row b{
+    font-size:14px;
+  }
+
+  .record-summary-date{
+    font-size:12px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>Maslog</header>
+<header>
+  <span>Maslog</span>
+
+  <button
+    class="header-menu"
+    onclick="openDataManagement()"
+    aria-label="データ管理">
+    ☰
+  </button>
+</header>
 
 <main id="app"></main>
 
 <div class="tabs">
   <button id="tabRec" class="on" onclick="setTab('rec')">
-    <span class="ic">✎</span>記録
+    <span class="ic">✎</span>
+    <span>記録</span>
   </button>
 
   <button id="tabCal" onclick="setTab('cal')">
-    <span class="ic">▦</span>カレンダー
+    <span class="ic">▦</span>
+    <span>カレンダー</span>
   </button>
 </div>
 
@@ -924,13 +1034,21 @@ var data = load();
 state.date = today();
 
 function load(){
+
   var d = null;
 
   try {
-    d = JSON.parse(localStorage.getItem(KEY));
+    d = JSON.parse(
+      localStorage.getItem(KEY)
+    );
   } catch(e){}
 
-  if (!d || !d.exercises || !d.logs) {
+  if (
+    !d ||
+    !d.exercises ||
+    !d.logs
+  ){
+
     d = {
       exercises:{
         "胸":[],
@@ -944,37 +1062,42 @@ function load(){
   }
 
   CATS.forEach(function(c){
+
     if (!d.exercises[c]){
       d.exercises[c] = [];
     }
+
   });
 
   var merged = [];
   var idx = {};
 
-  d.logs.slice().sort(function(a,b){
-    return a.id - b.id;
-  }).forEach(function(l){
+  d.logs.slice()
+    .sort(function(a,b){
+      return a.id - b.id;
+    })
+    .forEach(function(l){
 
-    var k =
-      l.cat +
-      "|" +
-      l.ex +
-      "|" +
-      l.date;
+      var k =
+        l.cat +
+        "|" +
+        l.ex +
+        "|" +
+        l.date;
 
-    if (idx[k] !== undefined){
+      if (idx[k] !== undefined){
 
-      merged[idx[k]].sets =
-        merged[idx[k]].sets.concat(l.sets);
+        merged[idx[k]].sets =
+          merged[idx[k]].sets.concat(l.sets);
 
-    } else {
+      } else {
 
-      idx[k] = merged.length;
-      merged.push(l);
+        idx[k] = merged.length;
+        merged.push(l);
 
-    }
-  });
+      }
+
+    });
 
   d.logs = merged;
 
@@ -982,20 +1105,27 @@ function load(){
 }
 
 function save(){
+
   try {
+
     localStorage.setItem(
       KEY,
       JSON.stringify(data)
     );
+
   } catch(e){
+
     alert("保存に失敗しました");
+
   }
 }
 
 function esc(s){
+
   return String(s).replace(
     /[&<>"']/g,
     function(c){
+
       return {
         "&":"&amp;",
         "<":"&lt;",
@@ -1003,6 +1133,7 @@ function esc(s){
         '"':"&quot;",
         "'":"&#39;"
       }[c];
+
     }
   );
 }
@@ -1012,11 +1143,13 @@ function pad2(n){
 }
 
 function ymd(d){
+
   return d.getFullYear() +
     "-" +
     pad2(d.getMonth()+1) +
     "-" +
     pad2(d.getDate());
+
 }
 
 function today(){
@@ -1028,6 +1161,7 @@ function slash(s){
 }
 
 function utc(s){
+
   var p = s.split("-");
 
   return Date.UTC(
@@ -1042,60 +1176,81 @@ function fmtW(n){
 }
 
 function fmtN(n){
+
   return Number(n).toLocaleString(
     "ja-JP",
     {
       maximumFractionDigits:1
     }
   );
+
 }
 
 function fmtV(n){
-  return Math.ceil(n).toLocaleString("ja-JP");
+
+  return Math.ceil(n).toLocaleString(
+    "ja-JP"
+  );
+
 }
 
 function setVol(s){
+
   return Math.round(s.weight*10) *
     s.reps / 10;
+
 }
 
 function vol(sets){
+
   var t = 0;
 
   sets.forEach(function(s){
+
     t +=
       Math.round(s.weight*10) *
       s.reps;
+
   });
 
   return t / 10;
 }
 
 function maxW(sets){
+
   var m = 0;
 
   sets.forEach(function(s){
+
     if (s.weight > m){
       m = s.weight;
     }
+
   });
 
   return m;
 }
 
 function getDays(cat,ex){
+
   return data.logs
     .filter(function(l){
+
       return l.cat === cat &&
         l.ex === ex;
+
     })
     .sort(function(a,b){
+
       return a.date < b.date ? -1 :
         (a.date > b.date ? 1 : 0);
+
     });
+
 }
 
 function findLog(cat,ex,date){
+
   for (
     var i=0;
     i<data.logs.length;
@@ -1109,15 +1264,20 @@ function findLog(cat,ex,date){
       l.ex === ex &&
       l.date === date
     ){
+
       return l;
+
     }
+
   }
 
   return null;
 }
 
 function lastSummary(cat,name){
-  var days = getDays(cat,name);
+
+  var days =
+    getDays(cat,name);
 
   if (days.length === 0){
     return null;
@@ -1136,7 +1296,9 @@ function lastSummary(cat,name){
           s.reps > top.reps
         )
       ){
+
         top = s;
+
       }
 
     });
@@ -1145,7 +1307,9 @@ function lastSummary(cat,name){
 }
 
 function elapsedDays(cat,ex){
-  var days = getDays(cat,ex);
+
+  var days =
+    getDays(cat,ex);
 
   if (days.length === 0){
     return null;
@@ -1167,9 +1331,40 @@ function elapsedDays(cat,ex){
   };
 }
 
+/* =========================
+   データ管理ページ
+========================= */
+
+function openDataManagement(){
+
+  state.ex = null;
+  state.sub = "data";
+
+  render();
+
+}
+
+function closeDataManagement(){
+
+  state.tab = "rec";
+  state.ex = null;
+  state.sub = "rec";
+
+  document.getElementById("tabRec")
+    .className = "on";
+
+  document.getElementById("tabCal")
+    .className = "";
+
+  render();
+
+}
+
 function setTab(t){
+
   state.tab = t;
   state.ex = null;
+  state.sub = "rec";
 
   document.getElementById("tabRec")
     .className =
@@ -1184,9 +1379,11 @@ function setTab(t){
   }
 
   render();
+
 }
 
 function initCalendarSelection(){
+
   var t = today();
 
   var dates =
@@ -1213,6 +1410,7 @@ function initCalendarSelection(){
       past.length ?
       past[past.length-1] :
       dates[0];
+
   }
 
   state.selDate = sel;
@@ -1222,15 +1420,21 @@ function initCalendarSelection(){
 
   state.calY = +p[0];
   state.calM = +p[1] - 1;
+
 }
 
 function setCat(c){
+
   state.cat = c;
   state.ex = null;
+  state.sub = "rec";
+
   render();
+
 }
 
 function addExercise(){
+
   var el =
     document.getElementById("newEx");
 
@@ -1243,18 +1447,23 @@ function addExercise(){
     data.exercises[state.cat]
       .indexOf(name) >= 0
   ){
+
     alert("すでに登録されています");
     return;
+
   }
 
   data.exercises[state.cat]
     .push(name);
 
   save();
+
   render();
+
 }
 
 function delExercise(i){
+
   var name =
     data.exercises[state.cat][i];
 
@@ -1263,17 +1472,22 @@ function delExercise(i){
     "」を種目から削除しますか?\n"+
     "(過去の記録はカレンダーに残ります)"
   )){
+
     return;
+
   }
 
   data.exercises[state.cat]
     .splice(i,1);
 
   save();
+
   render();
+
 }
 
 function loadDraft(){
+
   var l =
     findLog(
       state.cat,
@@ -1294,6 +1508,7 @@ function loadDraft(){
       });
 
     });
+
   }
 
   while (rows.length < 5){
@@ -1307,11 +1522,31 @@ function loadDraft(){
   }
 
   state.rows = rows;
+
 }
 
+/* =========================
+   種目ページ遷移
+========================= */
+
 function openExercise(i){
+
   state.ex =
     data.exercises[state.cat][i];
+
+  /*
+    種目をタップしたときは
+    まず記録まとめ画面を表示
+  */
+  state.sub = "summary";
+
+  state.date = today();
+
+  render();
+
+}
+
+function openRecordInput(){
 
   state.sub = "rec";
   state.date = today();
@@ -1319,19 +1554,32 @@ function openExercise(i){
   loadDraft();
 
   render();
+
 }
 
 function backToList(){
+
   state.ex = null;
+  state.sub = "rec";
+
   render();
+
 }
 
 function setSub(s){
+
   state.sub = s;
+
+  if (s === "rec"){
+    loadDraft();
+  }
+
   render();
+
 }
 
 function changeDate(){
+
   var v =
     document.getElementById("date").value;
 
@@ -1341,9 +1589,11 @@ function changeDate(){
   loadDraft();
 
   render();
+
 }
 
 function addRow(){
+
   state.rows.push({
     w:"",
     r:"",
@@ -1351,14 +1601,19 @@ function addRow(){
   });
 
   render();
+
 }
 
 function rowInput(i,k,v){
+
   state.rows[i][k] = v;
+
   updateSummary();
+
 }
 
 function parseRows(strict){
+
   var sets = [];
 
   for (
@@ -1380,7 +1635,9 @@ function parseRows(strict){
       r === "" &&
       !row.rpe
     ){
+
       continue;
+
     }
 
     var wn = parseFloat(w);
@@ -1419,6 +1676,7 @@ function parseRows(strict){
 
       msg =
         "回数は1以上の整数で入力してください";
+
     }
 
     if (msg){
@@ -1435,6 +1693,7 @@ function parseRows(strict){
       }
 
       continue;
+
     }
 
     sets.push({
@@ -1445,11 +1704,13 @@ function parseRows(strict){
 
       rpe:row.rpe
     });
+
   }
 
   return {
     sets:sets
   };
+
 }
 
 function summaryHtml(){
@@ -1467,35 +1728,49 @@ function summaryHtml(){
 
     tv =
       fmtV(vol(p.sets));
+
   }
 
   return (
+
     '<div class="stat">'+
+
       '<span>Max重量</span>'+
+
       '<b>'+
         mx+
         '<small>kg</small>'+
       '</b>'+
+
     '</div>'+
 
     '<div class="stat">'+
+
       '<span>合計ボリューム</span>'+
+
       '<b>'+
         tv+
         '<small>kg</small>'+
       '</b>'+
+
     '</div>'
+
   );
+
 }
 
 function updateSummary(){
+
   var el =
     document.getElementById("summary");
 
   if (el){
+
     el.innerHTML =
       summaryHtml();
+
   }
+
 }
 
 function saveLog(){
@@ -1504,15 +1779,20 @@ function saveLog(){
     parseRows(true);
 
   if (p.error){
+
     alert(p.error);
     return;
+
   }
 
   if (p.sets.length === 0){
+
     alert(
       "セットを1つ以上入力してください"
     );
+
     return;
+
   }
 
   var l =
@@ -1535,6 +1815,7 @@ function saveLog(){
       ex:state.ex,
       sets:p.sets
     });
+
   }
 
   save();
@@ -1543,7 +1824,12 @@ function saveLog(){
 
   alert("保存しました");
 
+  /*
+    保存後は記録入力画面に残す。
+    ここは従来の挙動を維持。
+  */
   render();
+
 }
 
 function delLog(id){
@@ -1551,7 +1837,9 @@ function delLog(id){
   if (!confirm(
     "この記録を削除しますか?"
   )){
+
     return;
+
   }
 
   data.logs =
@@ -1566,11 +1854,15 @@ function delLog(id){
   save();
 
   render();
+
 }
 
 function selectDate(key){
+
   state.selDate = key;
+
   render();
+
 }
 
 function calMove(n){
@@ -1589,16 +1881,23 @@ function calMove(n){
     d.getMonth();
 
   render();
+
 }
 
 function setMetric(m){
+
   state.metric = m;
+
   render();
+
 }
 
 function setPeriod(p){
+
   state.period = p;
+
   render();
+
 }
 
 function rpeOptions(sel){
@@ -1624,14 +1923,17 @@ function rpeOptions(sel){
       '>RPE '+
       v+
       '</option>';
+
   }
 
   return h;
+
 }
 
 function setLine(s,i,withVol){
 
   return (
+
     '<div class="setl">'+
 
       '<span class="sn">'+
@@ -1661,19 +1963,43 @@ function setLine(s,i,withVol){
       )+
 
     '</div>'
+
   );
+
 }
+
+/* =========================
+   メイン描画
+========================= */
 
 function render(){
 
   var app =
     document.getElementById("app");
 
+  /*
+    データ管理ページは
+    メインタブとは独立して表示
+  */
+  if (state.sub === "data"){
+
+    app.innerHTML =
+      renderDataManagementPage();
+
+    return;
+
+  }
+
   app.innerHTML =
     state.tab === "rec" ?
     renderRec() :
     renderCalendarTab();
+
 }
+
+/* =========================
+   記録トップ
+========================= */
 
 function renderRec(){
 
@@ -1706,7 +2032,12 @@ function renderRec(){
   }
 
   return h + renderExScreen();
+
 }
+
+/* =========================
+   種目一覧
+========================= */
 
 function renderExList(){
 
@@ -1747,7 +2078,7 @@ function renderExList(){
 
       var info;
 
-      if (e){
+      if (e && t){
 
         info =
           '<div class="prev">'+
@@ -1767,6 +2098,7 @@ function renderExList(){
 
         info =
           'まだ記録なし';
+
       }
 
       h +=
@@ -1794,6 +2126,7 @@ function renderExList(){
 
     h +=
       '</div>';
+
   }
 
   h +=
@@ -1812,9 +2145,100 @@ function renderExList(){
     '</div>';
 
   return h;
+
 }
 
+/* =========================
+   種目画面
+========================= */
+
 function renderExScreen(){
+
+  /*
+    新しい初期画面
+    「種目記録まとめ」
+  */
+  if (state.sub === "summary"){
+
+    return renderExerciseSummary();
+
+  }
+
+  /*
+    記録入力画面
+  */
+  if (state.sub === "rec"){
+
+    var h =
+      '<div class="card">'+
+
+        '<div class="exscreen-head">'+
+
+          '<button class="sub back" onclick="setSub(\'summary\')">'+
+          '← 戻る'+
+          '</button>'+
+
+          '<div class="exscreen-title">'+
+            '<h3>'+
+            esc(state.ex)+
+            '</h3>'+
+          '</div>'+
+
+          '<button class="save-top" onclick="saveLog()">'+
+          '保存'+
+          '</button>'+
+
+        '</div>';
+
+    var e =
+      elapsedDays(
+        state.cat,
+        state.ex
+      );
+
+    h +=
+      '<div class="small" style="margin-top:7px">'+
+      (
+        e ?
+        '最終記録 '+
+        slash(e.last)+
+        ' / '+
+        e.days+
+        '日経過' :
+        '記録なし'
+      )+
+      '</div>'+
+
+      '</div>';
+
+    return h + renderInput();
+
+  }
+
+  /*
+    グラフ画面
+  */
+  if (state.sub === "graph"){
+
+    return renderGraph();
+
+  }
+
+  return renderExerciseSummary();
+
+}
+
+/* =========================
+   種目記録まとめ
+========================= */
+
+function renderExerciseSummary(){
+
+  var days =
+    getDays(
+      state.cat,
+      state.ex
+    );
 
   var h =
     '<div class="card">'+
@@ -1831,65 +2255,103 @@ function renderExScreen(){
           '</h3>'+
         '</div>'+
 
-        '<button class="save-top" onclick="saveLog()">'+
-        '保存'+
+        '<button class="save-top" onclick="openRecordInput()">'+
+        '＋ 記録'+
         '</button>'+
 
-      '</div>';
+      '</div>'+
 
-  var e =
-    elapsedDays(
-      state.cat,
-      state.ex
-    );
-
-  h +=
-    '<div class="small" style="margin-top:7px">'+
-    (
-      e ?
-      '最終記録 '+
-      slash(e.last)+
-      ' / '+
-      e.days+
-      '日経過' :
-      '記録なし'
-    )+
     '</div>';
 
+  /*
+    グラフボタン
+  */
   h +=
-    '<div class="subtabs">';
+    '<div class="card">'+
 
-  [
-    ["rec","記録"],
-    ["graph","グラフ"]
-  ].forEach(function(s){
+      '<button class="outline" onclick="setSub(\'graph\')" style="margin-top:0">'+
+      'グラフを見る'+
+      '</button>'+
+
+    '</div>';
+
+  /*
+    記録一覧
+  */
+  h +=
+    '<div class="card">'+
+      '<h3>記録一覧</h3>';
+
+  if (days.length === 0){
 
     h +=
-      '<button class="'+
-      (
-        state.sub===s[0] ?
-        "on" :
-        ""
-      )+
-      '" onclick="setSub(\''+
-      s[0]+
-      '\')">'+
-      s[1]+
-      '</button>';
+      '<p class="small">'+
+      'まだ記録がありません。'+
+      '</p>';
 
-  });
+  } else {
 
-  h +=
-    '</div></div>';
+    h +=
+      '<div class="record-summary-list">';
 
-  if (state.sub === "rec"){
+    /*
+      getDaysは古い順なので、
+      ここではコピーして逆順にする。
+      元データの順番は変更しない。
+    */
+    days
+      .slice()
+      .reverse()
+      .forEach(function(l){
 
-    return h + renderInput();
+        h +=
+          '<div class="record-summary-row">'+
+
+            '<div>'+
+
+              '<span>トータルボリューム</span>'+
+
+              '<b>'+
+              fmtV(vol(l.sets))+
+              '<small>kg</small>'+
+              '</b>'+
+
+            '</div>'+
+
+            '<div>'+
+
+              '<span>最大使用重量</span>'+
+
+              '<b>'+
+              fmtW(maxW(l.sets))+
+              '<small>kg</small>'+
+              '</b>'+
+
+            '</div>'+
+
+            '<div class="record-summary-date">'+
+              slash(l.date)+
+            '</div>'+
+
+          '</div>';
+
+      });
+
+    h +=
+      '</div>';
 
   }
 
-  return h + renderGraph();
+  h +=
+    '</div>';
+
+  return h;
+
 }
+
+/* =========================
+   記録入力
+========================= */
 
 function renderInput(){
 
@@ -1899,9 +2361,9 @@ function renderInput(){
       '<div class="small">'+
       '記録日</div>'+
 
-      '<input type="date" id="date" value="'+
+      '<input class="record-date" type="date" id="date" value="'+
       state.date+
-      '" onchange="changeDate()" style="margin:4px 0 8px">'+
+      '" onchange="changeDate()">'+
 
       '<div class="setrows">';
 
@@ -1946,7 +2408,12 @@ function renderInput(){
     '</div>';
 
   return h;
+
 }
+
+/* =========================
+   カレンダー
+========================= */
 
 function renderDayDetail(){
 
@@ -1975,6 +2442,7 @@ function renderDayDetail(){
       'この日の記録はありません'+
       '</p>'+
       '</div>';
+
   }
 
   CATS.forEach(function(c){
@@ -2042,14 +2510,17 @@ function renderDayDetail(){
         '</div>'+
 
       '</div>';
+
     });
 
     h +=
       '</div>';
+
   });
 
   return h+
     '</div>';
+
 }
 
 function renderCalendar(){
@@ -2111,6 +2582,7 @@ function renderCalendar(){
 
     h +=
       '<div></div>';
+
   }
 
   for (
@@ -2152,6 +2624,7 @@ function renderCalendar(){
       '\')">'+
       d+
       '</div>';
+
   }
 
   h +=
@@ -2179,7 +2652,12 @@ function renderCalendar(){
     '</div>';
 
   return h;
+
 }
+
+/* =========================
+   グラフ
+========================= */
 
 function renderGraph(){
 
@@ -2206,36 +2684,59 @@ function renderGraph(){
       days.filter(function(l){
         return l.date >= cutoff;
       });
+
   }
 
+  /*
+    グラフ画面の戻るボタン
+  */
   var h =
     '<div class="card">'+
 
-      '<div class="chips">'+
+      '<div class="exscreen-head">'+
 
-        '<button class="'+
-        (
-          state.metric==="max" ?
-          "on" :
-          ""
-        )+
-        '" onclick="setMetric(\'max\')">'+
-        'Max重量'+
+        '<button class="sub back" onclick="setSub(\'summary\')">'+
+        '← 戻る'+
         '</button>'+
 
-        '<button class="'+
-        (
-          state.metric==="vol" ?
-          "on" :
-          ""
-        )+
-        '" onclick="setMetric(\'vol\')">'+
-        '合計ボリューム'+
-        '</button>'+
+        '<div class="exscreen-title">'+
+          '<h3>'+
+          esc(state.ex)+
+          '</h3>'+
+        '</div>'+
 
       '</div>'+
 
-      '<div class="chips">';
+    '</div>'+
+
+    '<div class="card">';
+
+  h +=
+    '<div class="chips">'+
+
+      '<button class="'+
+      (
+        state.metric==="max" ?
+        "on" :
+        ""
+      )+
+      '" onclick="setMetric(\'max\')">'+
+      'Max重量'+
+      '</button>'+
+
+      '<button class="'+
+      (
+        state.metric==="vol" ?
+        "on" :
+        ""
+      )+
+      '" onclick="setMetric(\'vol\')">'+
+      '合計ボリューム'+
+      '</button>'+
+
+    '</div>'+
+
+    '<div class="chips">';
 
   [
     ["3","3カ月"],
@@ -2256,6 +2757,7 @@ function renderGraph(){
       '\')">'+
       p[1]+
       '</button>';
+
   });
 
   h +=
@@ -2268,6 +2770,7 @@ function renderGraph(){
       'この期間の記録がありません。'+
       '</p>'+
       '</div>';
+
   }
 
   var vals =
@@ -2351,6 +2854,7 @@ function renderGraph(){
     ){
 
       ticks.push(tv);
+
     }
 
     H =
@@ -2358,6 +2862,7 @@ function renderGraph(){
         H,
         (ticks.length-1)*22+T+B
       );
+
   }
 
   function X(t){
@@ -2368,6 +2873,7 @@ function renderGraph(){
       (t-tMin)/
       (tMax-tMin)*
       (W-L-R);
+
   }
 
   function Y(v){
@@ -2378,6 +2884,7 @@ function renderGraph(){
         (v-lo)/(hi-lo)
       )*
       (H-T-B);
+
   }
 
   var s =
@@ -2418,6 +2925,7 @@ function renderGraph(){
       )+
 
       '</text>';
+
   });
 
   var pts =
@@ -2482,6 +2990,7 @@ function renderGraph(){
       '" font-size="11" text-anchor="end" fill="#555">'+
       lastD+
       '</text>';
+
   }
 
   s +=
@@ -2499,51 +3008,85 @@ function renderGraph(){
     '</div>';
 
   return h;
+
 }
+
+/* =========================
+   カレンダータブ
+========================= */
 
 function renderCalendarTab(){
 
   return renderCalendar()+
-    renderDayDetail()+
-    renderDataCard();
+    renderDayDetail();
+
 }
 
-function renderDataCard(){
+/* =========================
+   データ管理ページ
+========================= */
+
+function renderDataManagementPage(){
 
   return (
+
+    '<div class="card">'+
+
+      '<div class="exscreen-head">'+
+
+        '<button class="sub back" onclick="closeDataManagement()">'+
+        '← 戻る'+
+        '</button>'+
+
+        '<div class="exscreen-title">'+
+          '<h3>データ管理</h3>'+
+        '</div>'+
+
+        '<div style="width:72px"></div>'+
+
+      '</div>'+
+
+    '</div>'+
+
     '<div class="card data-management-card">'+
 
-      '<h3>データ管理</h3>'+
+      '<h3>バックアップ</h3>'+
 
-      '<div class="dm">'+
+      '<button class="main" onclick="backupData()">'+
+      'バックアップ'+
+      '</button>'+
 
-        '<button class="main" onclick="backupData()">'+
-        'バックアップ'+
-        '</button>'+
+      '<p class="small">'+
+      'スマホ内の記録をJSONファイルとして保存します。'+
+      '</p>'+
 
-        '<p class="small">'+
-        'スマホ内の記録をJSONファイルとして保存します'+
-        '</p>'+
+    '</div>'+
 
-      '</div>'+
+    '<div class="card data-management-card">'+
 
-      '<div class="dm">'+
+      '<h3>復元</h3>'+
 
-        '<button class="outline" onclick="document.getElementById(\'restoreFile\').click()">'+
-        '復元'+
-        '</button>'+
+      '<button class="outline" onclick="document.getElementById(\'restoreFile\').click()">'+
+      '復元'+
+      '</button>'+
 
-        '<p class="small" style="margin-bottom:0">'+
-        '保存したJSONファイルから記録を戻します(現在の記録は上書きされます)'+
-        '</p>'+
-
-      '</div>'+
+      '<p class="small">'+
+      '保存したJSONファイルから記録を戻します。'+
+      '<br>'+
+      '現在の記録は上書きされます。'+
+      '</p>'+
 
       '<input type="file" id="restoreFile" accept=".json,application/json" style="display:none" onchange="restoreData(this)">'+
 
     '</div>'
+
   );
+
 }
+
+/* =========================
+   バックアップ
+========================= */
 
 function backupData(){
 
@@ -2586,6 +3129,7 @@ function backupData(){
     URL.revokeObjectURL(url);
 
   },1000);
+
 }
 
 function isPlainObject(v){
@@ -2593,6 +3137,7 @@ function isPlainObject(v){
   return typeof v==="object" &&
     v!==null &&
     !Array.isArray(v);
+
 }
 
 function validateBackup(d){
@@ -2645,8 +3190,11 @@ function validateBackup(d){
         return "exercises の「"+
         CATS[i]+
         "」に正しくない種目名があります";
+
       }
+
     }
+
   }
 
   for (
@@ -2669,6 +3217,7 @@ function validateBackup(d){
 
       return n+
         "id が正しくありません";
+
     }
 
     if (
@@ -2678,12 +3227,14 @@ function validateBackup(d){
 
       return n+
         "日付が正しくありません";
+
     }
 
     if (CATS.indexOf(l.cat)<0){
 
       return n+
         "部位が正しくありません";
+
     }
 
     if (
@@ -2693,6 +3244,7 @@ function validateBackup(d){
 
       return n+
         "種目名が正しくありません";
+
     }
 
     if (
@@ -2702,6 +3254,7 @@ function validateBackup(d){
 
       return n+
         "セットがありません";
+
     }
 
     for (
@@ -2727,11 +3280,15 @@ function validateBackup(d){
         return n+
           (j+1)+
           "セット目の重量または回数が正しくありません";
+
       }
+
     }
+
   }
 
   return "";
+
 }
 
 function buildRestoredData(d){
@@ -2749,7 +3306,9 @@ function buildRestoredData(d){
 
         ex[k] =
           d.exercises[k].slice();
+
       }
+
     });
 
   CATS.forEach(function(c){
@@ -2791,12 +3350,14 @@ function buildRestoredData(d){
       merged.push(l);
 
     }
+
   });
 
   return {
     exercises:ex,
     logs:merged
   };
+
 }
 
 function restoreData(input){
@@ -2838,6 +3399,7 @@ function restoreData(input){
         );
 
         return;
+
       }
 
       var err =
@@ -2851,12 +3413,15 @@ function restoreData(input){
         );
 
         return;
+
       }
 
       if (!confirm(
         "現在のデータをバックアップデータで上書きします。よろしいですか?"
       )){
+
         return;
+
       }
 
       var newData =
@@ -2876,6 +3441,7 @@ function restoreData(input){
         );
 
         return;
+
       }
 
       data = newData;
@@ -2883,6 +3449,7 @@ function restoreData(input){
       save();
 
       state.ex = null;
+      state.sub = "rec";
 
       initCalendarSelection();
 
@@ -2891,12 +3458,18 @@ function restoreData(input){
       alert(
         "データを復元しました"
       );
+
     };
 
   reader.readAsText(file);
 
   input.value="";
+
 }
+
+/* =========================
+   Service Worker
+========================= */
 
 if ("serviceWorker" in navigator){
 
@@ -2910,6 +3483,7 @@ if ("serviceWorker" in navigator){
 
     }
   );
+
 }
 
 render();

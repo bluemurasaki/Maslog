@@ -18,11 +18,6 @@
   -webkit-tap-highlight-color:transparent
 }
 
-html{
-  min-height:100%;
-  background:var(--bg);
-}
-
 :root{
   --blue:#2563eb;
   --blue-d:#1d4ed8;
@@ -34,6 +29,11 @@ html{
   /* フッター */
   --footer:#c8ccd1;
   --footer-active:#bcc1c7;
+}
+
+html{
+  min-height:100%;
+  background:var(--bg);
 }
 
 body{
@@ -93,6 +93,7 @@ main{
   padding:12px;
   max-width:600px;
   margin:0 auto;
+  background:var(--bg);
 }
 
 .card{
@@ -2642,8 +2643,8 @@ function validateBackup(d){
       ){
 
         return "exercises の「"+
-          CATS[i]+
-          "」に正しくない種目名があります";
+        CATS[i]+
+        "」に正しくない種目名があります";
       }
     }
   }

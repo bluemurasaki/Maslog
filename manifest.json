@@ -3,6 +3,7 @@
   "short_name": "Maslog",
   "start_url": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#f2f4f7",
   "theme_color": "#1f2937",
   "lang": "ja",

@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#1f2937">
@@ -25,6 +25,9 @@
   --footer:#c8ccd1;
   --footer-active:#bcc1c7;
 }
+
+html,
+body{touch-action:manipulation}
 
 html{min-height:100%;background:var(--bg)}
 
@@ -1452,6 +1455,14 @@ function restoreData(input){
 
   input.value = "";
 }
+
+/* =========================
+   ピンチ拡大の防止(iPhone用)
+========================= */
+
+document.addEventListener("gesturestart", function(e){
+  e.preventDefault();
+});
 
 /* =========================
    Service Worker

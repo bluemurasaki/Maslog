@@ -38,7 +38,7 @@ body{
   background:var(--bg);
   color:var(--ink);
   padding-top:calc(62px + env(safe-area-inset-top));
-  padding-bottom:52px;
+  padding-bottom:calc(24px + env(safe-area-inset-bottom));
   overflow-x:hidden;
 }
 
@@ -74,29 +74,25 @@ h3{margin:0 0 10px;font-size:17px}
 .small{font-size:13px;color:var(--mute)}
 .total{font-weight:bold;color:var(--blue)}
 
-/* 下部ナビ */
-.tabs{
-  position:fixed;left:0;right:0;bottom:0;
-  width:100%;height:52px;
-  display:flex;justify-content:center;
-  background:var(--footer);
-  border-top:1px solid #b9bec4;
-  padding:0;margin:0;
-  z-index:1000;
-  box-sizing:border-box;
+/* ハンバーガーメニュー */
+.menu-overlay{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:999}
+.menu-overlay.open{display:block}
+.menu{
+  display:none;
+  position:fixed;
+  top:calc(env(safe-area-inset-top) + 56px);
+  right:12px;
+  min-width:190px;
+  padding:6px;
+  background:#fff;
+  border-radius:12px;
+  box-shadow:0 6px 24px #0003;
+  z-index:1002;
 }
-.tabs button{
-  flex:1;max-width:300px;width:50%;height:52px;
-  margin:0;padding:0;
-  border:0;border-top:3px solid transparent;
-  background:var(--footer);color:#68717c;
-  font-size:13px;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;
-  box-sizing:border-box;
-}
-.tabs button .ic{font-size:18px;line-height:1}
-.tabs button.on{color:var(--blue);font-weight:bold;border-top-color:var(--blue);background:var(--footer-active)}
+.menu.open{display:block}
+.menu button{display:block;width:100%;height:48px;padding:0 14px;border:0;border-radius:8px;background:transparent;color:var(--ink);font-size:16px;text-align:left}
+.menu button:active{background:#eff6ff}
+.menu button.cur{color:var(--blue);font-weight:bold;background:#eff6ff}
 
 /* 部位選択 */
 .cats{display:flex;gap:6px;margin-bottom:12px}
@@ -245,21 +241,18 @@ svg{width:100%;height:auto;background:#fafafa;border-radius:8px}
 
 <header>
   <span>Maslog</span>
-  <button class="header-menu" onclick="openDataManagement()" aria-label="データ管理">☰</button>
+  <button id="menuBtn" class="header-menu" onclick="toggleMenu()" aria-label="メニュー" aria-expanded="false">☰</button>
 </header>
 
-<main id="app"></main>
+<div id="menuOverlay" class="menu-overlay" onclick="closeMenu()"></div>
 
-<div class="tabs">
-  <button id="tabRec" class="on" onclick="setTab('rec')">
-    <span class="ic">✎</span>
-    <span>記録</span>
-  </button>
-  <button id="tabCal" onclick="setTab('cal')">
-    <span class="ic">▦</span>
-    <span>カレンダー</span>
-  </button>
-</div>
+<nav id="menu" class="menu">
+  <button id="menu-rec" onclick="menuGo('rec')">記録</button>
+  <button id="menu-cal" onclick="menuGo('cal')">カレンダー</button>
+  <button id="menu-data" onclick="menuGo('data')">データ管理</button>
+</nav>
+
+<main id="app"></main>
 
 <script>
 var CATS = ["胸","背中","肩","腕","脚"];
@@ -445,18 +438,65 @@ function closeDataManagement(){
   state.tab = "rec";
   state.ex = null;
   state.sub = "rec";
-  document.getElementById("tabRec").className = "on";
-  document.getElementById("tabCal").className = "";
   render();
 }
+
+/* =========================
+   ハンバーガーメニュー
+========================= */
+
+// いま表示している画面("rec" / "cal" / "data")
+function currentView(){
+  return state.sub === "data" ? "data" : state.tab;
+}
+
+function openMenu(){
+  var cur = currentView();
+
+  ["rec","cal","data"].forEach(function(k){
+    document.getElementById("menu-"+k).className = k === cur ? "cur" : "";
+  });
+
+  document.getElementById("menu").className = "menu open";
+  document.getElementById("menuOverlay").className = "menu-overlay open";
+  document.getElementById("menuBtn").setAttribute("aria-expanded","true");
+}
+
+function closeMenu(){
+  document.getElementById("menu").className = "menu";
+  document.getElementById("menuOverlay").className = "menu-overlay";
+  document.getElementById("menuBtn").setAttribute("aria-expanded","false");
+}
+
+function toggleMenu(){
+  if (document.getElementById("menu").className.indexOf("open") >= 0){
+    closeMenu();
+  } else {
+    openMenu();
+  }
+}
+
+function menuGo(k){
+  closeMenu();
+
+  // いまの画面を選んだときは何もしない(入力中の内容を消さないため)
+  if (k === currentView()) return;
+
+  if (k === "data"){
+    openDataManagement();
+  } else {
+    setTab(k);
+  }
+}
+
+document.addEventListener("keydown", function(e){
+  if (e.key === "Escape") closeMenu();
+});
 
 function setTab(t){
   state.tab = t;
   state.ex = null;
   state.sub = "rec";
-
-  document.getElementById("tabRec").className = t === "rec" ? "on" : "";
-  document.getElementById("tabCal").className = t === "cal" ? "on" : "";
 
   if (t === "cal") initCalendarSelection();
 

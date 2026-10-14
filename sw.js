@@ -1,4 +1,4 @@
-const CACHE_NAME = "mas-log-v6";
+const CACHE_NAME = "mas-log-v7";
 
 const ASSETS = [
   "./",
